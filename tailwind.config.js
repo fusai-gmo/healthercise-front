@@ -8,7 +8,14 @@ module.exports = {
     './plugins/**/*.{js,ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        bg: '#F4F5F7',
+        accent: '#FF8947',
+        black: '#333333',
+        primary: '#F98080',
+      },
+    },
   },
   variants: {
     extend: {},
