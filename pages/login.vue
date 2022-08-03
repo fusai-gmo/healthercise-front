@@ -23,26 +23,26 @@
 </template>
 
 <script setup>
-  import  { signInWithPopup } from 'firebase/auth';
+  import { signInWithPopup } from 'firebase/auth'
   definePageMeta({
     layout: false,
   })
-  const { $auth,$provider,$store } = useNuxtApp();
+  const { $auth, $provider, $store } = useNuxtApp()
   const router = useRouter()
-  const googleLogin = (() => {
-    $provider.addScope('https://www.googleapis.com/auth/calendar');
-     signInWithPopup($auth ,$provider)
-        .then((response) => {
-          let Authorization = useAuthorization();
-          Authorization.value = response["_tokenResponse"]['idToken'];
-          console.log(Authorization);
-          router.push("/")
-        })
-        .catch((error) => {
-          alert(error);
-          alert("エラーが発生いたしました。間違い等がないか確認をし再度実施をお願いします");
-        });
-  });
-
-
+  const googleLogin = () => {
+    $provider.addScope('https://www.googleapis.com/auth/calendar')
+    signInWithPopup($auth, $provider)
+      .then((response) => {
+        let Authorization = useAuthorization()
+        Authorization.value = response['_tokenResponse']['idToken']
+        console.log(Authorization)
+        router.push('/')
+      })
+      .catch((error) => {
+        alert(error)
+        alert(
+          'エラーが発生いたしました。間違い等がないか確認をし再度実施をお願いします'
+        )
+      })
+  }
 </script>

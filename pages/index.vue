@@ -1,8 +1,11 @@
 <script setup lang="ts">
   import Heading from '../components/typography/Heading.vue'
-  import Paper from '../components/fundamentals/Paper.vue'
   import { RiFireLine, RiArrowRightLine } from 'vue-remix-icons'
-  import axios from 'axios';
+  import Paper from '../components/fundamentals/Paper.vue'
+  // @ts-ignore
+  import { VueFinalModal } from 'vue-final-modal'
+  import TextButton from '~~/components/fundamentals/TextButton.vue'
+  import axios from 'axios'
 
   const plans = ref([
     {
@@ -57,11 +60,14 @@
     .filter(({ type }) => type !== 'others')
     .reduce((total, excercise) => total + excercise.percentage, 0)
 
+  const modalOpen = ref(false)
   onMounted(() => {
     axios
-      .get('http://localhost:4010/users/1',{headers: { Authorization : useAuthorization()['value'] } } )
-      .then(response =>{
-        console.log(response);
+      .get('http://localhost:4010/users/1', {
+        headers: { Authorization: useAuthorization()['value'] },
+      })
+      .then((response) => {
+        console.log(response)
       })
   })
 
@@ -73,6 +79,33 @@
 <template>
   <NuxtLayout name="default">
     <template #title>ダッシュボード</template>
+    <vue-final-modal
+      v-model="modalOpen"
+      classes="flex justify-center items-center"
+      content-class="relative flex flex-col max-h-full mx-4 border dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-900"
+    >
+      <ExerciseCard
+        title="ジョギング"
+        :cal="1400"
+        :start-time="new Date('2022-08-03T12:00:00.000Z')"
+        :end-time="new Date('2022-08-03T14:30:00.000Z')"
+        :hint="null"
+      ></ExerciseCard>
+      <div class="flex justify-end space-x-1 px-4 pt-2 pb-4">
+        <button
+          @click="modalOpen = false"
+          class="rounded-2xl px-4 py-2 font-bold text-gray-400 transition hover:bg-gray-400/10 focus:bg-gray-400/10"
+        >
+          キャンセル
+        </button>
+        <button
+          @click="modalOpen = false"
+          class="rounded-2xl border-[3px] border-accent px-4 py-2 font-bold text-accent transition hover:bg-accent/10 focus:bg-accent/10"
+        >
+          完了する
+        </button>
+      </div>
+    </vue-final-modal>
     <div class="flex flex-col space-y-12">
       <!-- 今日の予定 -->
       <section class="w-full">
@@ -98,36 +131,22 @@
       <!-- 次の予定 -->
       <section class="w-full space-y-4">
         <Heading :size="'h2'">次の予定</Heading>
-        <Paper class="flex flex-col space-y-4">
-          <div class="flex items-start justify-between">
-            <div class="flex flex-col">
-              <h3 class="text-xl font-bold">ジョギング</h3>
-              <p class="text-lg font-bold text-gray-400">
-                2.5<span class="ml-0.5 text-sm">時間 （10:30 - 14:00）</span>
-              </p>
-            </div>
-            <div class="flex shrink-0 items-center">
-              <RiFireLine class="h-6 w-6 fill-accent"></RiFireLine>
-              <p>
-                <span class="mr-0.5 font-bold tabular-nums">1,400</span>
-                <span class="text-sm">kcal</span>
-              </p>
-            </div>
-          </div>
-          <div class="flex space-x-2 text-sm">
-            <p class="shrink-0 font-bold text-primary/80">ヒント</p>
-            <p class="text-gray-500">
-              ジョギングはゆっくりと走ることが大切です。タイムは気にせず行いましょう。
-            </p>
-          </div>
-        </Paper>
+        <ExerciseCard
+          title="ジョギング"
+          :cal="1400"
+          :start-time="new Date('2022-08-03T12:00:00.000Z')"
+          :end-time="new Date('2022-08-03T14:30:00.000Z')"
+          hint="ジョギングはゆっくりと走ることが大切です。タイムは気にせず行いましょう。"
+        >
+        </ExerciseCard>
         <div class="flex w-full flex-col items-center py-1">
-          <button
-            class="flex items-center space-x-2 rounded-2xl fill-blue-400 px-8 py-2 text-blue-400 hover:bg-blue-400/10 focus:bg-blue-400/10 focus:outline-blue-400"
+          <TextButton
+            @click="modalOpen = true"
+            class="flex items-center space-x-2"
           >
             <span> 運動の完了を登録 </span>
             <RiArrowRightLine class="h-6 w-6"></RiArrowRightLine>
-          </button>
+          </TextButton>
         </div>
       </section>
       <section class="w-full space-y-4">

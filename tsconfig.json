@@ -3,6 +3,7 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "strict": true
-  },
+    "strict": true,
+    "types": ["vue-final-modal"]
+  }
 }
