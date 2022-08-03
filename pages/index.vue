@@ -6,6 +6,7 @@
   import { VueFinalModal } from 'vue-final-modal'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import axios from 'axios'
+  import loginMiddleware from '~~/middleware/loginMiddleware'
 
   /** 1日で消費すべきトータルカロリー */
   const totalCalorie = 2700 // TODO: サーバーから取得
@@ -106,6 +107,7 @@
 
   definePageMeta({
     layout: false,
+    middleware: [loginMiddleware],
   })
 </script>
 
