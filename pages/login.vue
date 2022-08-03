@@ -29,7 +29,7 @@
   })
   const { $auth,$provider,$store } = useNuxtApp();
   const googleLogin = (() => {
-
+    $provider.addScope('https://www.googleapis.com/auth/calendar');
      signInWithPopup($auth ,$provider)
         .then(() => {
           window.location.href = "/register";       
