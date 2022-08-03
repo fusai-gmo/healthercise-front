@@ -1,18 +1,21 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
-  import { signOut } from '@firebase/auth';
+  import { signOut } from '@firebase/auth'
+
   const router = useRouter()
   const { $auth } = useNuxtApp()
+  const user = useUser()
+
   const googleLogout = () => {
-  signOut($auth)
-    .then((response) => {
-      let Authorization = useAuthorization()
-      Authorization.value = ''
-      router.push('/login')
-    })
-    .catch((error) => {
-      alert(error)
-    })
+    signOut($auth)
+      .then(() => {
+        let Authorization = useAuthorization()
+        Authorization.value = ''
+        router.push('/login')
+      })
+      .catch((error) => {
+        alert(error)
+      })
   }
 </script>
 
@@ -41,7 +44,7 @@
         class="rounded-full ring-accent ring-offset-2 focus:outline-none focus:ring-2"
       >
         <img
-          src="https://img.benesse-cms.jp/pet-cat/item/image/normal/77061d41-6774-4eed-8a01-187aad5e5b45.jpg?w=1200&h=1090&resize_type=cover&resize_mode=force"
+          :src="user?.user?.photoURL ?? ''"
           alt=""
           class="h-8 w-8 rounded-full"
         />
