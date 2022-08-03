@@ -28,16 +28,21 @@
     layout: false,
   })
   const { $auth,$provider,$store } = useNuxtApp();
+  const router = useRouter()
   const googleLogin = (() => {
     $provider.addScope('https://www.googleapis.com/auth/calendar');
      signInWithPopup($auth ,$provider)
-        .then(() => {
-          window.location.href = "/register";       
+        .then((response) => {
+          let Authorization = useAuthorization();
+          Authorization.value = response["_tokenResponse"]['idToken'];
+          console.log(Authorization);
+          router.push("/")
         })
         .catch((error) => {
           alert(error);
           alert("エラーが発生いたしました。間違い等がないか確認をし再度実施をお願いします");
         });
   });
+
 
 </script>
