@@ -9,6 +9,7 @@
   const router = useRouter()
   const isEdit = route.query.mode === 'edit'
   const slackId = route.query.userid
+  const user = useUser()
 
   const page = ref<0 | 1>(0)
 
@@ -63,7 +64,7 @@
     const payload = {
       ...userInput,
       slackId,
-      email: 'test@example.com', // TODO: set correct email
+      email: user.value.user?.email ?? '',
     }
     axios
       .post('http://localhost:4010/user', {
