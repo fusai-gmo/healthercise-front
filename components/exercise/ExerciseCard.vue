@@ -18,7 +18,16 @@
       <div class="flex flex-col">
         <h3 class="text-xl font-bold">{{ props.title }}</h3>
         <p class="text-lg font-bold text-gray-400">
-          2.5<span class="ml-0.5 text-sm">時間 （10:30 - 14:00）</span>
+          {{ (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60)
+          }}<span class="ml-0.5 text-sm"
+            >時間 （{{
+              startTime.toLocaleTimeString().split(':').slice(0, 2).join(':')
+            }}
+            -
+            {{
+              endTime.toLocaleTimeString().split(':').slice(0, 2).join(':')
+            }}）</span
+          >
         </p>
       </div>
       <div class="flex shrink-0 items-center">
