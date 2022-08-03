@@ -1,5 +1,19 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
+  import { signOut } from '@firebase/auth';
+  const router = useRouter()
+  const { $auth } = useNuxtApp()
+  const googleLogout = () => {
+  signOut($auth)
+    .then((response) => {
+      let Authorization = useAuthorization()
+      Authorization.value = ''
+      router.push('/login')
+    })
+    .catch((error) => {
+      alert(error)
+    })
+  }
 </script>
 
 <template>
@@ -18,7 +32,7 @@
               登録情報の変更・確認
             </li>
           </NuxtLink>
-          <button class="w-full text-start">
+          <button class="w-full text-start" @click="googleLogout()">
             <li class="rounded-2xl px-6 py-4 hover:bg-gray-100">ログアウト</li>
           </button>
         </ul>
