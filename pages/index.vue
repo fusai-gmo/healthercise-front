@@ -7,6 +7,8 @@
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import axios from 'axios'
 
+  import loginMiddleware from '~~/middleware/loginMiddleware'
+
   const plans = ref([
     {
       start: 9,
@@ -73,6 +75,7 @@
 
   definePageMeta({
     layout: false,
+    middleware: [loginMiddleware],
   })
 </script>
 
