@@ -6,7 +6,7 @@
         <h1 class="mt-1 text-3xl font-bold leading-none">ヘルササイズ</h1>
       </div>
       <NuxtLink
-        to="/register"
+        to="/profile"
         class="relative w-[300px] rounded-full border border-gray-300 bg-white px-5 py-3 text-center font-bold"
       >
         <img
