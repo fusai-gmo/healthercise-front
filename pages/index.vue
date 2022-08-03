@@ -2,6 +2,7 @@
   import Heading from '../components/typography/Heading.vue'
   import Paper from '../components/fundamentals/Paper.vue'
   import { RiFireLine, RiArrowRightLine } from 'vue-remix-icons'
+  import axios from 'axios';
 
   const plans = ref([
     {
@@ -56,7 +57,13 @@
     .filter(({ type }) => type !== 'others')
     .reduce((total, excercise) => total + excercise.percentage, 0)
 
-  onMounted(() => {})
+  onMounted(() => {
+    axios
+      .get('http://localhost:4010/users/1',{headers: { Authorization : useAuthorization()['value'] } } )
+      .then(response =>{
+        console.log(response);
+      })
+  })
 
   definePageMeta({
     layout: false,
