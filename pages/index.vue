@@ -5,6 +5,7 @@
   // @ts-ignore
   import { VueFinalModal } from 'vue-final-modal'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
+  import axios from 'axios'
 
   const plans = ref([
     {
@@ -60,6 +61,15 @@
     .reduce((total, excercise) => total + excercise.percentage, 0)
 
   const modalOpen = ref(false)
+  onMounted(() => {
+    axios
+      .get('http://localhost:4010/users/1', {
+        headers: { Authorization: useAuthorization()['value'] },
+      })
+      .then((response) => {
+        console.log(response)
+      })
+  })
 
   definePageMeta({
     layout: false,

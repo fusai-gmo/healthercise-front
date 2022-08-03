@@ -5,8 +5,8 @@
         <Logo class="h-12 w-12 fill-accent"></Logo>
         <h1 class="mt-1 text-3xl font-bold leading-none">ヘルササイズ</h1>
       </div>
-      <NuxtLink
-        to="/profile"
+      <Button
+        @click="googleLogin()"
         class="relative w-[300px] rounded-full border border-gray-300 bg-white px-5 py-3 text-center font-bold"
       >
         <img
@@ -17,13 +17,32 @@
           height="32"
         />
         <span> ログイン </span>
-      </NuxtLink>
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup>
+  import { signInWithPopup } from 'firebase/auth'
   definePageMeta({
     layout: false,
   })
+  const { $auth, $provider, $store } = useNuxtApp()
+  const router = useRouter()
+  const googleLogin = () => {
+    $provider.addScope('https://www.googleapis.com/auth/calendar')
+    signInWithPopup($auth, $provider)
+      .then((response) => {
+        let Authorization = useAuthorization()
+        Authorization.value = response['_tokenResponse']['idToken']
+        console.log(Authorization)
+        router.push('/')
+      })
+      .catch((error) => {
+        alert(error)
+        alert(
+          'エラーが発生いたしました。間違い等がないか確認をし再度実施をお願いします'
+        )
+      })
+  }
 </script>
