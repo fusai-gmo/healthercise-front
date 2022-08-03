@@ -65,16 +65,17 @@
       slackId,
       email: 'test@example.com', // TODO: set correct email
     }
-    axios.post(
-      'http://localhost:4010/user',
-      { headers : { Authorization : useAuthorization()['value']},
-        payload : payload},
-    ).then((response) => {
-      console.log(response)
-    })
-    .catch((error)=>{
-      console.log(JSON.stringify(error));
-    })
+    axios
+      .post('http://localhost:4010/user', {
+        headers: { Authorization: useAuthorization()['value'] },
+        payload: payload,
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error))
+      })
     router.push('/')
   }
 
