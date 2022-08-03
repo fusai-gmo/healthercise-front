@@ -3,6 +3,7 @@
   import Button from '~~/components/fundamentals/Button.vue'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import { RiArrowLeftLine } from 'vue-remix-icons'
+  import axios from 'axios'
 
   const route = useRoute()
   const router = useRouter()
@@ -64,7 +65,16 @@
       slackId,
       email: 'test@example.com', // TODO: set correct email
     }
-    console.log('POST', payload)
+    axios.post(
+      'http://localhost:4010/user',
+      { headers : { Authorization : useAuthorization()['value']},
+        payload : payload},
+    ).then((response) => {
+      console.log(response)
+    })
+    .catch((error)=>{
+      console.log(JSON.stringify(error));
+    })
     router.push('/')
   }
 

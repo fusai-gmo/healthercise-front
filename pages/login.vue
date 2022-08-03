@@ -36,7 +36,7 @@
         let Authorization = useAuthorization()
         Authorization.value = response['_tokenResponse']['idToken']
         console.log(Authorization)
-        router.push('/')
+        router.push('/profile')
       })
       .catch((error) => {
         alert(error)
