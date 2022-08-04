@@ -46,7 +46,7 @@
   const authUrl =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
     `scope=${encodeURIComponent(
-      'openid https://www.googleapis.com/auth/calendar'
+      'openid https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
     )}&` +
     'access_type=offline&' +
     'include_granted_scopes=true&' +
