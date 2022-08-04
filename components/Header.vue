@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
   import { signOut } from '@firebase/auth'
+  import axios from 'axios'
 
   const router = useRouter()
   const { $auth } = useNuxtApp()
@@ -16,6 +17,16 @@
       .catch((error) => {
         alert(error)
       })
+  }
+
+  /**
+   * デバッグ用
+   */
+  const handleFetchMe = async () => {
+    const res = await axios.get('http://localhost/auth/me', {
+      withCredentials: true,
+    })
+    alert(`Your user id is ${res.data}`)
   }
 </script>
 
@@ -40,6 +51,7 @@
           </button>
         </ul>
       </template>
+      <button @click="handleFetchMe">fetch about me</button>
       <button
         v-if="user?.user?.photoURL != null"
         class="rounded-full ring-accent ring-offset-2 focus:outline-none focus:ring-2"
