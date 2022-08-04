@@ -3,13 +3,14 @@
   import Button from '~~/components/fundamentals/Button.vue'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import { RiArrowLeftLine } from 'vue-remix-icons'
-  import axios from 'axios'
 
   const route = useRoute()
   const router = useRouter()
+  const user = useUser()
+  const axios = useAxios()
+
   const isEdit = route.query.mode === 'edit'
   const slackId = route.query.userid
-  const user = useUser()
 
   const page = ref<0 | 1>(0)
 
@@ -72,12 +73,7 @@
       email: user.value.user?.email ?? '',
     }
     await axios
-      .post('http://localhost/user', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      })
+      .post('/user', payload)
       .then((response) => {
         console.log(response)
       })

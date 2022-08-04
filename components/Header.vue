@@ -1,10 +1,10 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
   import { signOut } from '@firebase/auth'
-  import axios from 'axios'
 
   const router = useRouter()
   const { $auth } = useNuxtApp()
+  const axios = useAxios()
   const user = useUser()
 
   const googleLogout = () => {
