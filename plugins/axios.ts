@@ -12,16 +12,21 @@ declare module '@vue/runtime-core' {
   }
 }
 
-export const axios = axiosBase.create({
-  baseURL: 'http://localhost',
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
+export const getAxios = (baseURL: string) =>
+  axiosBase.create({
+    baseURL: baseURL,
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const runtimeConfig = useRuntimeConfig()
   const router = useRouter()
+
+  const axios = getAxios(runtimeConfig.public.apiBase ?? 'http://localhost')
+
   axios.interceptors.response.use(
     (response) => {
       return response

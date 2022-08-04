@@ -4,7 +4,6 @@
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import { RiArrowLeftLine, RiInformationLine } from 'vue-remix-icons'
 
-  const route = useRoute()
   const router = useRouter()
   const user = useUser()
   const axios = useAxios()

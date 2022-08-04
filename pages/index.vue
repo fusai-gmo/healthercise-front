@@ -72,16 +72,16 @@
 
   const modalOpen = ref(false)
 
-  onMounted(() => {
-    axios
-      .get('https://api.healthercise.k1h.dev/users/1', {
-        headers: { Authorization: useAuthorization().value },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response)
-      })
-  })
+  // onMounted(() => {
+  //   axios
+  //     .get('https://api.healthercise.k1h.dev/users/1', {
+  //       headers: { Authorization: useAuthorization().value },
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  // })
 
   const handleComplete = () => {
     modalOpen.value = false

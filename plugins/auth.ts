@@ -1,5 +1,5 @@
 import { User } from '~~/type/user'
-import { axios } from './axios'
+import { getAxios } from './axios'
 
 declare module '#app' {
   interface NuxtApp {
@@ -14,14 +14,17 @@ declare module '@vue/runtime-core' {
 }
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  // const router = useRouter()
+  const runtimeConfig = useRuntimeConfig()
+  const axios = getAxios(runtimeConfig.public.apiBase ?? 'http://localhost')
+
   const user = useUser()
   const userPromise = usePromiseUser()
+
   userPromise.value = new Promise(async (resolve) => {
     try {
-      const res1 = await axios.get<User>('http://localhost/auth/me')
+      const res = await axios.get<User>('/auth/me')
       user.value = {
-        user: res1.data,
+        user: res.data,
         isLoggedIn: true,
         isRegistered: true,
         isLoading: false,
