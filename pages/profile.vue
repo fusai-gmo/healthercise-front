@@ -2,39 +2,39 @@
   import Input from '@/components/fundamentals/Input.vue'
   import Button from '~~/components/fundamentals/Button.vue'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
-  import { RiArrowLeftLine } from 'vue-remix-icons'
-  import axios from 'axios'
+  import { RiArrowLeftLine, RiInformationLine } from 'vue-remix-icons'
 
-  const route = useRoute()
   const router = useRouter()
-  const isEdit = route.query.mode === 'edit'
-  const slackId = localStorage.getItem('slackid')
   const user = useUser()
+  const axios = useAxios()
+
+  const isEdit = user.value.isRegistered
+  const slackId = localStorage.getItem('slackid')
 
   const page = ref<0 | 1>(0)
 
   const userProfileState = useState('user_profile_input', () => ({}))
 
   const userInput = reactive({
-    userName: '',
-    gender: null as number | null,
-    age: '',
-    height: '',
-    weight: '',
+    userName: user.value.user?.name ?? '',
+    gender: null as number | null, // TODO: set
+    age: user.value.user?.age.toString() ?? '',
+    height: user.value.user?.height.toString() ?? '',
+    weight: user.value.user?.weight.toString() ?? '',
     activeTime: {
-      start: '',
-      finish: '',
+      start: user.value.user?.notify_start_time,
+      finish: user.value.user?.notify_finish_time,
     },
-    includeCommutingTime: false,
+    includeCommutingTime: false, // TODO: set
     goWorkTime: {
-      start: '',
-      finish: '',
+      start: '', // TODO: set
+      finish: '', // TODO: set
     },
     leaveWorkTime: {
-      start: '',
-      finish: '',
+      start: '', // TODO: set
+      finish: '', // TODO: set
     },
-    activeLevel: null as number | null,
+    activeLevel: null as number | null, // TODO: set
   })
 
   const isFirstPageValid = computed(() => {
@@ -71,21 +71,24 @@
       slackId,
       email: user.value.user?.email ?? '',
     }
-    await axios
-      .post('https://api.healthercise.k1h.dev/user', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response)
-        localStorage.removeItem('slackid')
-      })
-      .catch((error) => {
-        console.log(JSON.stringify(error))
-      })
-    router.push('/')
+    try {
+      if (isEdit) {
+        await axios.patch(`/users/${user.value.user.id}`, payload)
+        window.location.href = '/'
+      } else {
+        await axios.post('/user', payload)
+        user.value = {
+          user: user.value.user!,
+          isRegistered: true,
+          isLoggedIn: true,
+          isLoading: false,
+        }
+      }
+      router.push('/')
+    } catch (e) {
+      console.error(e)
+      window.alert('エラーが発生しました')
+    }
   }
 
   definePageMeta({
@@ -178,13 +181,13 @@
           </div>
         </div>
       </div>
-      <Button
-        is="button"
-        class="!mt-24 w-full cursor-pointer"
+      <button
+        class="!mt-24 w-full cursor-pointer rounded-2xl border border-gray-300 bg-white px-5 py-3 text-center font-bold outline-4 ring-primary transition hover:border-transparent hover:outline-none hover:ring-2 focus:border-transparent focus:outline-none focus:ring-2"
         :disabled="!isFirstPageValid"
         @click="() => (page = 1)"
-        >次へ</Button
       >
+        次へ
+      </button>
     </div>
     <div class="flex flex-col space-y-10 pb-32" v-else>
       <fieldset class="!mt-4 flex flex-col items-start space-y-6">
@@ -307,13 +310,13 @@
         </div>
       </fieldset>
 
-      <Button
-        is="button"
+      <button
+        class="!mt-24 w-full cursor-pointer rounded-2xl border border-gray-300 bg-white px-5 py-3 text-center font-bold outline-4 ring-primary transition hover:border-transparent hover:outline-none hover:ring-2 focus:border-transparent focus:outline-none focus:ring-2"
         @click="handleSend"
         :disabled="!isValid"
-        class="w-full"
-        >登録する</Button
       >
+        {{ isEdit ? '更新する' : '登録する' }}
+      </button>
     </div>
   </NuxtLayout>
 </template>

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
   import { signOut } from '@firebase/auth'
-  import axios from 'axios'
 
   const router = useRouter()
   const { $auth } = useNuxtApp()
@@ -17,16 +16,6 @@
       .catch((error) => {
         alert(error)
       })
-  }
-
-  /**
-   * デバッグ用
-   */
-  const handleFetchMe = async () => {
-    const res = await axios.get('https://api.healthercise.k1h.dev/auth/me', {
-      withCredentials: true,
-    })
-    alert(`Your user id is ${res.data}`)
   }
 </script>
 
@@ -51,12 +40,15 @@
           </button>
         </ul>
       </template>
-      <button @click="handleFetchMe">fetch about me</button>
       <button
-        v-if="user?.user?.photoURL != null"
+        v-if="user.user != null"
         class="rounded-full ring-accent ring-offset-2 focus:outline-none focus:ring-2"
       >
-        <img :src="user.user.photoURL" alt="" class="h-8 w-8 rounded-full" />
+        <img
+          :src="'https://picsum.photos/200' /* TODO: correct data */"
+          alt=""
+          class="h-8 w-8 rounded-full"
+        />
       </button>
     </Popper>
   </header>

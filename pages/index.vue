@@ -5,7 +5,8 @@
   // @ts-ignore
   import { VueFinalModal } from 'vue-final-modal'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
-  import axios from 'axios'
+
+  const axios = useAxios()
 
   /** 1日で消費すべきトータルカロリー */
   const totalCalorie = 2700 // TODO: サーバーから取得
@@ -71,16 +72,16 @@
 
   const modalOpen = ref(false)
 
-  onMounted(() => {
-    axios
-      .get('https://api.healthercise.k1h.dev/users/1', {
-        headers: { Authorization: useAuthorization().value },
-        withCredentials: true,
-      })
-      .then((response) => {
-        console.log(response)
-      })
-  })
+  // onMounted(() => {
+  //   axios
+  //     .get('https://api.healthercise.k1h.dev/users/1', {
+  //       headers: { Authorization: useAuthorization().value },
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  // })
 
   const handleComplete = () => {
     modalOpen.value = false

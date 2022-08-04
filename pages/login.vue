@@ -40,27 +40,30 @@
 
 <script setup lang="ts">
   const route = useRoute()
+  const runtimeConfig = useRuntimeConfig()
   definePageMeta({
     layout: false,
   })
 
+  console.log(runtimeConfig.public.oauthRedirectUri)
+
   // const { data: userid } = await useFetch(`http://localhost:3000/${route.params.userid}`)
-  window.localStorage.setItem( 'slackid', route.query.userid )
+  window.localStorage.setItem('slackid', route.query.userid)
   const authUrl =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
     `scope=${encodeURIComponent(
-      'openid https://www.googleapis.com/auth/calendar'
+      'openid https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
     )}&` +
     'access_type=offline&' +
     'include_granted_scopes=true&' +
     `response_type=${encodeURIComponent('code')}&` +
     // "state=state_parameter_passthrough_value&" +
-    `redirect_uri=${encodeURIComponent('https://api.healthercise.k1h.dev/auth/callback')}&` +
+    `redirect_uri=${encodeURIComponent(
+      runtimeConfig.public.oauthRedirectUri
+    )}&` +
     `client_id=${encodeURIComponent(
       '671996679896-nqj912dcsbeoitmgtrvscv6am5uck3tg.apps.googleusercontent.com'
     )}`
-
-  console.log(authUrl)
 
   const googleLogin = async () => {
     window.location.href = authUrl
