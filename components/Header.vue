@@ -41,13 +41,10 @@
         </ul>
       </template>
       <button
+        v-if="user?.user?.photoURL != null"
         class="rounded-full ring-accent ring-offset-2 focus:outline-none focus:ring-2"
       >
-        <img
-          :src="user?.user?.photoURL ?? ''"
-          alt=""
-          class="h-8 w-8 rounded-full"
-        />
+        <img :src="user.user.photoURL" alt="" class="h-8 w-8 rounded-full" />
       </button>
     </Popper>
   </header>

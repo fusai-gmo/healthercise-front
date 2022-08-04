@@ -60,17 +60,21 @@
   )
 
   const handleSend = () => {
-    // TODO: api post
     const payload = {
       ...userInput,
       slackId,
       email: user.value.user?.email ?? '',
     }
     axios
-      .post('http://localhost:4010/user', {
-        headers: { Authorization: useAuthorization()['value'] },
-        payload: payload,
-      })
+      .post(
+        'http://localhost/user',
+        {
+          payload: payload,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         console.log(response)
       })

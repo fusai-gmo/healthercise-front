@@ -6,7 +6,6 @@
   import { VueFinalModal } from 'vue-final-modal'
   import TextButton from '~~/components/fundamentals/TextButton.vue'
   import axios from 'axios'
-  import loginMiddleware from '~~/middleware/loginMiddleware.client'
 
   /** 1日で消費すべきトータルカロリー */
   const totalCalorie = 2700 // TODO: サーバーから取得
@@ -74,8 +73,9 @@
 
   onMounted(() => {
     axios
-      .get('http://localhost:4010/users/1', {
-        headers: { Authorization: useAuthorization()['value'] },
+      .get('http://localhost/users/1', {
+        headers: { Authorization: useAuthorization().value },
+        withCredentials: true,
       })
       .then((response) => {
         console.log(response)
@@ -107,7 +107,6 @@
 
   definePageMeta({
     layout: false,
-    middleware: [loginMiddleware],
   })
 </script>
 
