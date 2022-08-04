@@ -20,13 +20,19 @@
     age: '',
     height: '',
     weight: '',
-    activeTimeStart: '',
-    activeTimeEnd: '',
+    activeTime:{
+      start: '',
+      finish: '',
+    },
     includeCommutingTime: false,
-    goWorkTimeStart: '',
-    goWorkTimeEnd: '',
-    leaveWorkTimeStart: '',
-    leaveWorkTimeEnd: '',
+    goWorkTime:{
+      start: '',
+      finish: '',
+    },
+    leaveWorkTime:{
+      start: '',
+      finish: '',
+    },
     activeLevel: null as number | null,
   })
 
@@ -44,12 +50,12 @@
   const isSecondPageValid = computed(() => {
     userProfileState.value = userInput
     return (
-      userInput.activeTimeStart != '' &&
-      userInput.activeTimeEnd != '' &&
-      userInput.goWorkTimeStart != '' &&
-      userInput.goWorkTimeEnd != '' &&
-      userInput.leaveWorkTimeStart != '' &&
-      userInput.leaveWorkTimeEnd != '' &&
+      userInput.activeTime.start != '' &&
+      userInput.activeTime.finish != '' &&
+      userInput.goWorkTime.start != '' &&
+      userInput.goWorkTime.finish != '' &&
+      userInput.leaveWorkTime.start != '' &&
+      userInput.leaveWorkTime.finish != '' &&
       userInput.activeLevel != null
     )
   })
@@ -66,9 +72,14 @@
       email: 'test@example.com', // TODO: set correct email
     }
     axios.post(
-      'http://localhost:4010/user',
-      { headers : { Authorization : useAuthorization()['value']},
-        payload : payload},
+      'http://localhost/user',
+      payload,
+      {
+        headers: {
+          Authorization : useAuthorization()['value'],
+          'Content-Type' : 'application/json'
+        }
+      }
     ).then((response) => {
       console.log(response)
     })
@@ -114,9 +125,9 @@
         <div class="flex w-full space-x-2">
           <label
             v-for="option in [
-              { label: '男性', id: 0 },
-              { label: '女性', id: 1 },
-              { label: 'その他', id: 2 },
+              { label: '男性', id: 'male' },
+              { label: '女性', id: 'female' },
+              { label: 'その他', id: 'other' },
             ]"
             class="flex flex-1 cursor-pointer space-x-2 rounded-xl border border-gray-300 bg-white p-3 ring-primary focus-within:border-transparent focus-within:ring"
           >
@@ -187,7 +198,7 @@
             placeholder="開始時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.activeTimeStart"
+            v-model="userInput.activeTime.start"
           ></Input>
           〜
           <Input
@@ -195,7 +206,7 @@
             placeholder="終了時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.activeTimeEnd"
+            v-model="userInput.activeTime.finish"
           ></Input>
         </div>
         <div class="flex space-x-1 fill-gray-400 text-gray-400">
@@ -217,7 +228,7 @@
             placeholder="開始時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.goWorkTimeStart"
+            v-model="userInput.goWorkTime.start"
           ></Input>
           <span>〜</span>
           <Input
@@ -225,7 +236,7 @@
             placeholder="終了時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.goWorkTimeEnd"
+            v-model="userInput.goWorkTime.finish"
           ></Input>
         </fieldset>
         <fieldset class="flex w-full items-center space-x-2">
@@ -237,7 +248,7 @@
             placeholder="開始時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.leaveWorkTimeStart"
+            v-model="userInput.leaveWorkTime.start"
           ></Input>
           <span>〜</span>
           <Input
@@ -245,7 +256,7 @@
             placeholder="終了時刻"
             class="w-[120px]"
             type="time"
-            v-model="userInput.leaveWorkTimeEnd"
+            v-model="userInput.leaveWorkTime.finish"
           ></Input>
         </fieldset>
         <div class="!mt-4 pl-10">
