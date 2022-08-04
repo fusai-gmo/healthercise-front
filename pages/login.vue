@@ -57,8 +57,6 @@
       '671996679896-nqj912dcsbeoitmgtrvscv6am5uck3tg.apps.googleusercontent.com'
     )}`
 
-  console.log(authUrl)
-
   const googleLogin = async () => {
     window.location.href = authUrl
   }
