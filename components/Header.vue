@@ -23,7 +23,7 @@
    * デバッグ用
    */
   const handleFetchMe = async () => {
-    const res = await axios.get('http://localhost/auth/me', {
+    const res = await axios.get('https://api.healthercise.k1h.dev/auth/me', {
       withCredentials: true,
     })
     alert(`Your user id is ${res.data}`)

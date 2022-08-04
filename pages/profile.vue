@@ -8,7 +8,7 @@
   const route = useRoute()
   const router = useRouter()
   const isEdit = route.query.mode === 'edit'
-  const slackId = route.query.userid
+  const slackId = localStorage.getItem('slackid')
   const user = useUser()
 
   const page = ref<0 | 1>(0)
@@ -72,7 +72,7 @@
       email: user.value.user?.email ?? '',
     }
     await axios
-      .post('http://localhost/user', payload, {
+      .post('https://api.healthercise.k1h.dev/user', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,6 +80,7 @@
       })
       .then((response) => {
         console.log(response)
+        localStorage.removeItem('slackid')
       })
       .catch((error) => {
         console.log(JSON.stringify(error))

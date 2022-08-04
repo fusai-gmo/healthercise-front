@@ -73,7 +73,7 @@
 
   onMounted(() => {
     axios
-      .get('http://localhost/users/1', {
+      .get('https://api.healthercise.k1h.dev/users/1', {
         headers: { Authorization: useAuthorization().value },
         withCredentials: true,
       })
