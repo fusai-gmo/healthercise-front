@@ -15,6 +15,9 @@ module.exports = {
         black: '#333333',
         primary: '#F98080',
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
     },
   },
   variants: {
