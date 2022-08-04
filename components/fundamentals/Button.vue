@@ -11,7 +11,7 @@
 <template>
   <NuxtLink
     v-if="!props.disabled"
-    class="rounded-2xl border border-gray-300 bg-white px-5 py-3 text-center font-bold outline-4 ring-primary transition hover:border-transparent hover:outline-none hover:ring-2 focus:border-transparent focus:outline-none focus:ring"
+    class="rounded-2xl border border-gray-300 bg-white px-5 py-3 text-center font-bold outline-4 ring-primary transition hover:border-transparent hover:outline-none hover:ring-2 focus:border-transparent focus:outline-none focus:ring-2"
   >
     <slot></slot>
   </NuxtLink>

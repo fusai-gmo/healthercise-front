@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      modelValue: string
+      modelValue: string | number
     }>(),
     {
       modelValue: '',
@@ -9,7 +9,7 @@
   )
 
   const emit = defineEmits<{
-    (e: 'update:modelValue', text: string): string
+    (e: 'update:modelValue', text: string | number): string | number
   }>()
 
   const text = computed({

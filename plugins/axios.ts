@@ -1,18 +1,18 @@
-import axiosBase from 'axios'
+import axiosBase, { AxiosInstance } from 'axios'
 
 declare module '#app' {
   interface NuxtApp {
-    $axios: typeof axiosBase
+    $axios: AxiosInstance
   }
 }
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $axios: typeof axiosBase
+    $axios: AxiosInstance
   }
 }
 
-const axios = axiosBase.create({
+export const axios = axiosBase.create({
   baseURL: 'http://localhost',
   withCredentials: true,
   headers: {
@@ -27,9 +27,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       return response
     },
     (error) => {
-      console.log('ERRORRRRR')
-      console.log(error)
-      console.log({ ...error })
       if (error.response?.status === 401) {
         router.push('/login')
       }
