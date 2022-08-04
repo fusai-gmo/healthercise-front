@@ -9,6 +9,7 @@
   const router = useRouter()
   const isEdit = route.query.mode === 'edit'
   const slackId = route.query.userid
+  const user = useUser()
 
   const page = ref<0 | 1>(0)
 
@@ -20,16 +21,16 @@
     age: '',
     height: '',
     weight: '',
-    activeTime:{
+    activeTime: {
       start: '',
       finish: '',
     },
     includeCommutingTime: false,
-    goWorkTime:{
+    goWorkTime: {
       start: '',
       finish: '',
     },
-    leaveWorkTime:{
+    leaveWorkTime: {
       start: '',
       finish: '',
     },
@@ -64,28 +65,25 @@
     () => isFirstPageValid.value && isSecondPageValid.value
   )
 
-  const handleSend = () => {
-    // TODO: api post
+  const handleSend = async () => {
     const payload = {
       ...userInput,
       slackId,
-      email: 'test@example.com', // TODO: set correct email
+      email: user.value.user?.email ?? '',
     }
-    axios.post(
-      'http://localhost/user',
-      payload,
-      {
+    await axios
+      .post('http://localhost/user', payload, {
         headers: {
-          Authorization : useAuthorization()['value'],
-          'Content-Type' : 'application/json'
-        }
-      }
-    ).then((response) => {
-      console.log(response)
-    })
-    .catch((error)=>{
-      console.log(JSON.stringify(error));
-    })
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error))
+      })
     router.push('/')
   }
 

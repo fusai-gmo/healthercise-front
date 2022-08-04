@@ -1,18 +1,32 @@
 <script lang="ts" setup>
   import Popper from 'vue3-popper'
-  import { signOut } from '@firebase/auth';
+  import { signOut } from '@firebase/auth'
+  import axios from 'axios'
+
   const router = useRouter()
   const { $auth } = useNuxtApp()
+  const user = useUser()
+
   const googleLogout = () => {
-  signOut($auth)
-    .then((response) => {
-      let Authorization = useAuthorization()
-      Authorization.value = ''
-      router.push('/login')
+    signOut($auth)
+      .then(() => {
+        let Authorization = useAuthorization()
+        Authorization.value = ''
+        router.push('/login')
+      })
+      .catch((error) => {
+        alert(error)
+      })
+  }
+
+  /**
+   * デバッグ用
+   */
+  const handleFetchMe = async () => {
+    const res = await axios.get('http://localhost/auth/me', {
+      withCredentials: true,
     })
-    .catch((error) => {
-      alert(error)
-    })
+    alert(`Your user id is ${res.data}`)
   }
 </script>
 
@@ -37,14 +51,12 @@
           </button>
         </ul>
       </template>
+      <button @click="handleFetchMe">fetch about me</button>
       <button
+        v-if="user?.user?.photoURL != null"
         class="rounded-full ring-accent ring-offset-2 focus:outline-none focus:ring-2"
       >
-        <img
-          src="https://img.benesse-cms.jp/pet-cat/item/image/normal/77061d41-6774-4eed-8a01-187aad5e5b45.jpg?w=1200&h=1090&resize_type=cover&resize_mode=force"
-          alt=""
-          class="h-8 w-8 rounded-full"
-        />
+        <img :src="user.user.photoURL" alt="" class="h-8 w-8 rounded-full" />
       </button>
     </Popper>
   </header>

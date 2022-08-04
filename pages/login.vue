@@ -6,8 +6,8 @@
         <h1 class="mt-1 text-3xl font-bold leading-none">ヘルササイズ</h1>
       </div>
       <Button
-        @click="googleLogin()"
-        class="relative w-[300px] rounded-full border border-gray-300 bg-white px-5 py-3 text-center font-bold"
+        @click="() => googleLogin()"
+        class="relative w-[300px] rounded-full border border-gray-300 bg-white px-5 py-3 text-center font-bold transition-all hover:bg-gray-50"
       >
         <img
           src="assets/images/google_logo.png"
@@ -18,31 +18,48 @@
         />
         <span> ログイン </span>
       </Button>
+      <!-- <div
+        id="g_id_onload"
+        data-client_id="671996679896-nqj912dcsbeoitmgtrvscv6am5uck3tg.apps.googleusercontent.com"
+        data-login_uri="http://localhost:3000/login"
+      ></div>
+      <div
+        class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left"
+      >
+        ログイン
+      </div> -->
     </div>
   </div>
 </template>
 
-<script setup>
-  import { signInWithPopup } from 'firebase/auth'
+<script setup lang="ts">
   definePageMeta({
     layout: false,
   })
-  const { $auth, $provider, $store } = useNuxtApp()
-  const router = useRouter()
-  const googleLogin = () => {
-    $provider.addScope('https://www.googleapis.com/auth/calendar')
-    signInWithPopup($auth, $provider)
-      .then((response) => {
-        let Authorization = useAuthorization()
-        Authorization.value = response['_tokenResponse']['idToken']
-        console.log(Authorization)
-        router.push('/profile')
-      })
-      .catch((error) => {
-        alert(error)
-        alert(
-          'エラーが発生いたしました。間違い等がないか確認をし再度実施をお願いします'
-        )
-      })
+
+  const authUrl =
+    'https://accounts.google.com/o/oauth2/v2/auth?' +
+    `scope=${encodeURIComponent(
+      'openid https://www.googleapis.com/auth/calendar'
+    )}&` +
+    'access_type=offline&' +
+    'include_granted_scopes=true&' +
+    `response_type=${encodeURIComponent('code')}&` +
+    // "state=state_parameter_passthrough_value&" +
+    `redirect_uri=${encodeURIComponent('http://localhost/auth/callback')}&` +
+    `client_id=${encodeURIComponent(
+      '671996679896-nqj912dcsbeoitmgtrvscv6am5uck3tg.apps.googleusercontent.com'
+    )}`
+
+  console.log(authUrl)
+
+  const googleLogin = async () => {
+    window.location.href = authUrl
   }
 </script>
