@@ -10,7 +10,7 @@
   const axios = useAxios()
 
   const isEdit = user.value.isRegistered
-  const slackId = route.query.userid
+  const slackId = localStorage.getItem('slackid')
 
   const page = ref<0 | 1>(0)
 
