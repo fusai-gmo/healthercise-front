@@ -48,7 +48,7 @@
   console.log(runtimeConfig.public.oauthRedirectUri)
 
   // const { data: userid } = await useFetch(`http://localhost:3000/${route.params.userid}`)
-  window.localStorage.setItem('slackid', route.query.userid)
+  window.localStorage.setItem('slackid', route.query.userid as string)
   const authUrl =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
     `scope=${encodeURIComponent(

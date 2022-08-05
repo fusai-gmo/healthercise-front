@@ -18,9 +18,9 @@
   const userInput = reactive({
     userName: user.value.user?.name ?? '',
     gender: null as number | null, // TODO: set
-    age: user.value.user?.age.toString() ?? '',
-    height: user.value.user?.height.toString() ?? '',
-    weight: user.value.user?.weight.toString() ?? '',
+    age: user.value.user?.age?.toString() ?? '',
+    height: user.value.user?.height?.toString() ?? '',
+    weight: user.value.user?.weight?.toString() ?? '',
     activeTime: {
       start: user.value.user?.notify_start_time,
       finish: user.value.user?.notify_finish_time,
@@ -72,7 +72,7 @@
       email: user.value.user?.email ?? '',
     }
     try {
-      if (isEdit) {
+      if (true) {
         await axios.patch(`/users/${user.value.user.id}`, payload)
         window.location.href = '/'
       } else {
