@@ -73,7 +73,10 @@
     }
     try {
       if (true) {
-        await axios.patch(`/users/${user.value.user.id}`, payload)
+        const userId =
+          user.value.user?.id ??
+          ((await axios.get(`/auth/me`).then((res) => res.data.id)) as string)
+        await axios.patch(`/users/${userId}`, payload)
         window.location.href = '/'
       } else {
         await axios.post('/user', payload)
